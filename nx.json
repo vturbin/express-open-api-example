@@ -33,7 +33,17 @@
       "options": {
         "targetName": "test"
       },
-      "exclude": ["apps/express-open-api-example-e2e/**/*"]
+      "exclude": ["apps/express-app2-e2e/**/*", "apps/express-app1-e2e/**/*"]
+    },
+    {
+      "plugin": "@nx/webpack/plugin",
+      "options": {
+        "buildTargetName": "build",
+        "serveTargetName": "serve",
+        "previewTargetName": "preview",
+        "buildDepsTargetName": "build-deps",
+        "watchDepsTargetName": "watch-deps"
+      }
     }
   ]
 }

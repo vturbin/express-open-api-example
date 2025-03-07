@@ -1,0 +1,184 @@
+openapi: '3.0.0'
+info:
+  version: 1.0.0
+  title: Order Service
+  description: API for Order Service
+servers:
+  - url: http://{base_url}
+    variables:
+      base_url:
+        default: localhost:3000
+        description: server
+paths:
+  /orders:
+    get:
+      description: Get all orders
+      operationId: getOrders
+      responses:
+        '200':
+          description: orders response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Order'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      description: Create an order
+      operationId: createOrder
+      requestBody:
+        description: Create an order
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrder'
+      responses:
+        '201':
+          description: Order response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /orders/{id}:
+    get:
+      description: Get order by id
+      operationId: getOrderById
+      parameters:
+        - name: id
+          in: path
+          description: ID of order to fetch
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Order response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      description: deletes a single order based on the ID supplied
+      operationId: deleteOrder
+      parameters:
+        - name: id
+          in: path
+          description: ID of order to delete
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: order deleted
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      description: Updates a single order based on the ID supplied
+      operationId: updateOrderStatus
+      parameters:
+        - name: id
+          in: path
+          description: ID of order to update
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Update an order
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateOrder'
+      responses:
+        '200':
+          description: Order Update Status response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  schemas:
+    Order:
+      required:
+        - id
+        - customerName
+        - totalAmount
+        - status
+        - createdAt
+      properties:
+        id:
+          readOnly: true
+          type: string
+        customerName:
+          type: string
+        totalAmount:
+          type: number
+          minimum: 0
+        status:
+          $ref: '#/components/schemas/OrderStatus'
+    CreateOrder:
+      required:
+        - customerName
+        - totalAmount
+      properties:
+        customerName:
+          type: string
+        totalAmount:
+          type: number
+          minimum: 0
+    UpdateOrder:
+      required:
+        - status
+      properties:
+        status:
+          $ref: '#/components/schemas/OrderStatus'
+    OrderStatus:
+      type: string
+      enum:
+        - pending
+        - shipped
+        - delivered
+        - cancelled
+    Error:
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string

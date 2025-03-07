@@ -1,17 +1,17 @@
 {
-  "name": "express-open-api-example-e2e",
+  "name": "express-app1-e2e",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "implicitDependencies": ["express-open-api-example"],
+  "implicitDependencies": ["express-app1"],
   "targets": {
     "e2e": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{e2eProjectRoot}"],
       "options": {
-        "jestConfig": "apps/express-open-api-example-e2e/jest.config.ts",
+        "jestConfig": "apps/express-app1-e2e/jest.config.ts",
         "passWithNoTests": true
       },
-      "dependsOn": ["express-open-api-example:build"]
+      "dependsOn": ["express-app1:build"]
     }
   }
 }
