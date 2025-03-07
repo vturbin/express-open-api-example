@@ -14,6 +14,8 @@ paths:
     get:
       description: Get all orders
       operationId: getOrders
+      tags:
+        - order
       responses:
         '200':
           description: orders response
@@ -32,6 +34,8 @@ paths:
     post:
       description: Create an order
       operationId: createOrder
+      tags:
+        - order
       requestBody:
         description: Create an order
         required: true
@@ -56,6 +60,8 @@ paths:
     get:
       description: Get order by id
       operationId: getOrderById
+      tags:
+        - order
       parameters:
         - name: id
           in: path
@@ -80,6 +86,8 @@ paths:
     delete:
       description: deletes a single order based on the ID supplied
       operationId: deleteOrder
+      tags:
+        - order
       parameters:
         - name: id
           in: path
@@ -100,6 +108,8 @@ paths:
     patch:
       description: Updates a single order based on the ID supplied
       operationId: updateOrderStatus
+      tags:
+        - order
       parameters:
         - name: id
           in: path

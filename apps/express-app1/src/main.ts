@@ -8,6 +8,7 @@ import * as path from 'path';
 import * as OpenApiValidator from 'express-openapi-validator';
 import swaggerUi from 'swagger-ui-express';
 import orderRoutes from './routes/orders.routes';
+import cors from 'cors';
 
 const app = express();
 const fs = require('fs');
@@ -16,6 +17,14 @@ const YAML = require('yaml');
 app.use(express.json());
 app.use(express.text());
 app.use(express.urlencoded({ extended: false }));
+
+app.use(
+  cors({
+    origin: 'http://localhost:4200', // Allow Angular app
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  })
+);
 
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
 
